@@ -5,14 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FTC Team 37055</title>
   <meta name="description" content="FTC Team 37055 - a rookie FIRST Tech Challenge robotics team.">
+  <meta name="theme-color" content="#08061e">
   <link rel="icon" href="img/logo.png">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <!-- Hide scroll-reveal content until site.js runs; show everything anyway if it never does. -->
+  <script>document.documentElement.classList.add("js");window.revealFallback=setTimeout(function(){document.documentElement.classList.remove("js")},4000);</script>
+  <script src="js/site.js?v=4" defer></script>
 </head>
 <body>
-  <nav class="nav">
+  <a class="skip" href="#about">Skip to content</a>
+
+  <!-- The logo star, rebuilt as SVG from img/logo.png so it can be animated. -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <polygon id="ray-o" points="0,-17 238,0 0,17"/>
+      <polygon id="ray-g" points="0,-21 172,0 0,21"/>
+      <polygon id="ray-y" points="0,-28 100,0 0,28"/>
+    </defs>
+    <symbol id="star" viewBox="-240 -240 480 480">
+      <g fill="#ff6e00">
+        <use href="#ray-o"/><use href="#ray-o" transform="rotate(45)"/><use href="#ray-o" transform="rotate(90)"/><use href="#ray-o" transform="rotate(135)"/>
+        <use href="#ray-o" transform="rotate(180)"/><use href="#ray-o" transform="rotate(225)"/><use href="#ray-o" transform="rotate(270)"/><use href="#ray-o" transform="rotate(315)"/>
+      </g>
+      <g fill="#ffa814">
+        <use href="#ray-g" transform="rotate(30)"/><use href="#ray-g" transform="rotate(90)"/><use href="#ray-g" transform="rotate(150)"/>
+        <use href="#ray-g" transform="rotate(210)"/><use href="#ray-g" transform="rotate(270)"/><use href="#ray-g" transform="rotate(330)"/>
+      </g>
+      <g fill="#ffd232">
+        <use href="#ray-y"/><use href="#ray-y" transform="rotate(90)"/><use href="#ray-y" transform="rotate(180)"/><use href="#ray-y" transform="rotate(270)"/>
+      </g>
+      <circle r="57" fill="#fff2c3"/>
+      <circle r="30" fill="#fff"/>
+    </symbol>
+  </svg>
+
+  <nav class="nav nav--overlay" data-menu>
     <div class="container">
-      <a class="brand" href="index.html"><img src="img/logo.png" alt="Team 37055 logo"><span>Team 37055</span></a>
-      <div class="nav-links">
+      <a class="brand" href="index.html">
+        <svg class="brand-mark" aria-hidden="true"><use href="#star"/></svg>
+        <span class="brand-name">Team 37055</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu"><span></span><span></span></button>
+      <div class="nav-links" id="nav-links">
         <a href="#about">About</a>
         <a href="#subteams">Subteams</a>
         <a href="#join">Join</a>
@@ -22,79 +59,185 @@
   </nav>
 
   <header class="hero">
-    <div class="container">
-      <div>
-        <p class="eyebrow">Rookie Team, 2026&ndash;27 Season</p>
-        <h1>FTC Team 37055</h1>
-        <p>We are a first-year FIRST Tech Challenge team. This season we are designing, building, and programming our first competition robot.</p>
+    <canvas class="starfield" data-starfield aria-hidden="true"></canvas>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow hero-eyebrow"><span class="pulse-dot"></span>Rookie Team, 2026&ndash;27 Season</p>
+        <h1 class="hero-title">
+          <span class="hero-title-small">FTC Team</span>
+          <span class="sr-only">37055</span>
+          <span class="counter" data-counter aria-hidden="true">37055</span>
+        </h1>
+        <p class="hero-lead">We are a first-year FIRST Tech Challenge team. This season we are designing, building, and programming our first competition robot.</p>
         <div class="btn-row">
-          <a class="btn" href="#subteams">Subteams</a>
+          <a class="btn" href="#subteams">Subteams <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg></a>
           <a class="btn secondary" href="#about">About Us</a>
         </div>
       </div>
-      <div class="hero-logo"><img src="img/logo.png" alt="Team 37055 logo"></div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-glow"></div>
+        <svg class="orbit" viewBox="-300 -300 600 600">
+          <defs><path id="orbit-path" d="M0,-279 A279,279 0 1,1 0,279 A279,279 0 1,1 0,-279"/></defs>
+          <circle class="orbit-line" r="250"/>
+          <circle class="orbit-ticks" r="258"/>
+          <circle class="orbit-ticks-major" r="258"/>
+          <text class="orbit-text"><textPath href="#orbit-path" textLength="1753" lengthAdjust="spacing">FTC TEAM 37055 &middot; FIRST TECH CHALLENGE &middot; ROOKIE SEASON 2026&ndash;27 &middot; FTC TEAM 37055 &middot; FIRST TECH CHALLENGE &middot; ROOKIE SEASON 2026&ndash;27 &middot; FTC TEAM 37055 &middot; FIRST TECH CHALLENGE &middot; ROOKIE SEASON 2026&ndash;27 &middot;&#160;</textPath></text>
+        </svg>
+        <svg class="hero-star" viewBox="-250 -250 500 500">
+          <g class="halo" fill="#9670ff"><circle r="145" fill-opacity=".05"/><circle r="105" fill-opacity=".055"/></g>
+          <g class="rays rays-o" fill="#ff6e00">
+            <use href="#ray-o"/><use href="#ray-o" transform="rotate(45)"/><use href="#ray-o" transform="rotate(90)"/><use href="#ray-o" transform="rotate(135)"/>
+            <use href="#ray-o" transform="rotate(180)"/><use href="#ray-o" transform="rotate(225)"/><use href="#ray-o" transform="rotate(270)"/><use href="#ray-o" transform="rotate(315)"/>
+          </g>
+          <g class="rays rays-g" fill="#ffa814">
+            <use href="#ray-g" transform="rotate(30)"/><use href="#ray-g" transform="rotate(90)"/><use href="#ray-g" transform="rotate(150)"/>
+            <use href="#ray-g" transform="rotate(210)"/><use href="#ray-g" transform="rotate(270)"/><use href="#ray-g" transform="rotate(330)"/>
+          </g>
+          <g class="rays rays-y" fill="#ffd232">
+            <use href="#ray-y"/><use href="#ray-y" transform="rotate(90)"/><use href="#ray-y" transform="rotate(180)"/><use href="#ray-y" transform="rotate(270)"/>
+          </g>
+          <g class="core"><circle r="57" fill="#fff2c3"/><circle r="30" fill="#fff"/></g>
+        </svg>
+      </div>
     </div>
   </header>
 
-  <section id="about" class="alt">
-    <div class="container narrow">
-      <p class="eyebrow">About</p>
-      <h2 class="section-title">Our Rookie Season</h2>
-      <p>This is our first year competing in FIRST Tech Challenge. We are starting without a previous robot or code base, so everything on this year's robot is designed and built by the current team.</p>
-      <p>As a rookie team, our goals for the season are to field a reliable robot, document what we learn in our engineering portfolio, and build connections with other teams and our community.</p>
-    </div>
-  </section>
-
-  <section id="subteams">
-    <div class="container">
-      <p class="eyebrow">Subteams</p>
-      <h2 class="section-title">How the Team Is Organized</h2>
-      <p class="section-sub">Each member works on one of three subteams.</p>
-      <div class="grid">
-        <article class="card">
-          <h3>Programming</h3>
-          <p>Writes the robot's TeleOp and Autonomous code in Java using <a href="https://github.com/FTC-23511/SolversLib" target="_blank" rel="noopener">SolversLib</a>, a command-based library for FTC.</p>
-          <ul>
-            <li>Command-based structure with subsystems</li>
-            <li>Driver controls and autonomous routines</li>
-            <li>Sensors, odometry, and path following</li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3>CAD &amp; Build</h3>
-          <p>Designs the robot in CAD, then fabricates and assembles it.</p>
-          <ul>
-            <li>3D modeling and design reviews</li>
-            <li>Prototyping and 3D printing</li>
-            <li>Drivetrain, mechanisms, and wiring</li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3>Outreach</h3>
-          <p>Represents the team in the community and manages our public presence.</p>
-          <ul>
-            <li>STEM events and demonstrations</li>
-            <li>Sponsorships and fundraising</li>
-            <li>Social media and the engineering portfolio</li>
-          </ul>
-        </article>
+  <div class="ticker" data-marquee aria-hidden="true">
+    <div class="ticker-band">
+      <div class="ticker-track">
+        <div class="ticker-group">
+          <span>Programming</span><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0l1.6 6.4L16 8l-6.4 1.6L8 16l-1.6-6.4L0 8l6.4-1.6z"/></svg>
+          <span>CAD &amp; Build</span><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0l1.6 6.4L16 8l-6.4 1.6L8 16l-1.6-6.4L0 8l6.4-1.6z"/></svg>
+          <span>Outreach</span><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0l1.6 6.4L16 8l-6.4 1.6L8 16l-1.6-6.4L0 8l6.4-1.6z"/></svg>
+          <span>Rookie Season 2026&ndash;27</span><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0l1.6 6.4L16 8l-6.4 1.6L8 16l-1.6-6.4L0 8l6.4-1.6z"/></svg>
+          <span>FTC Team 37055</span><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0l1.6 6.4L16 8l-6.4 1.6L8 16l-1.6-6.4L0 8l6.4-1.6z"/></svg>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section id="join" class="alt">
-    <div class="container narrow">
-      <h2 class="section-title">Get Involved</h2>
-      <p>If you are interested in joining the team or sponsoring our season, please reach out to a team member or mentor.</p>
+  <main>
+    <section id="about" class="section about">
+      <div class="container">
+        <p class="eyebrow" data-reveal>About</p>
+        <div class="about-grid">
+          <h2 class="section-title" data-reveal>Our Rookie Season</h2>
+          <div class="about-copy" data-reveal style="--delay: .12s">
+            <p class="lead">This is our first year competing in FIRST Tech Challenge. We are starting without a previous robot or code base, so everything on this year's robot is designed and built by the current team.</p>
+            <p>As a rookie team, our goals for the season are to:</p>
+          </div>
+        </div>
+        <ol class="goals" data-stagger>
+          <li data-reveal><span class="goal-num">01</span><span class="goal-text">Field a reliable robot</span><svg class="goal-mark" aria-hidden="true"><use href="#star"/></svg></li>
+          <li data-reveal><span class="goal-num">02</span><span class="goal-text">Document what we learn in our engineering portfolio</span><svg class="goal-mark" aria-hidden="true"><use href="#star"/></svg></li>
+          <li data-reveal><span class="goal-num">03</span><span class="goal-text">Build connections with other teams and our community</span><svg class="goal-mark" aria-hidden="true"><use href="#star"/></svg></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="subteams" class="section subteams">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" data-reveal>Subteams</p>
+          <h2 class="section-title" data-reveal style="--delay: .06s">How the Team Is Organized</h2>
+          <p class="section-sub" data-reveal style="--delay: .12s">Each member works on one of three subteams.</p>
+        </div>
+        <div class="cards" data-stagger>
+          <article class="card team-card" data-reveal data-spotlight>
+            <div class="team-card-top">
+              <span class="team-num">01</span>
+              <svg class="team-icon icon-code" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path class="br-l" d="M15 14 5 24l10 10"/>
+                <path class="br-r" d="M33 14l10 10-10 10"/>
+                <path class="slash" d="M27.5 10l-7 28"/>
+              </svg>
+            </div>
+            <h3>Programming</h3>
+            <p>Writes the robot's TeleOp and Autonomous code in Java using <a href="https://github.com/FTC-23511/SolversLib" target="_blank" rel="noopener">SolversLib</a>, a command-based library for FTC.</p>
+            <ul class="tick-list">
+              <li>Command-based structure with subsystems</li>
+              <li>Driver controls and autonomous routines</li>
+              <li>Sensors, odometry, and path following</li>
+            </ul>
+          </article>
+          <article class="card team-card" data-reveal data-spotlight>
+            <div class="team-card-top">
+              <span class="team-num">02</span>
+              <svg class="team-icon icon-gear" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+                <g class="gear">
+                  <path d="M36.95 21.42 40.91 22.27 40.91 25.73 36.95 26.58 34.98 31.33 37.18 34.73 34.73 37.18 31.33 34.98 26.58 36.95 25.73 40.91 22.27 40.91 21.42 36.95 16.67 34.98 13.27 37.18 10.82 34.73 13.02 31.33 11.05 26.58 7.09 25.73 7.09 22.27 11.05 21.42 13.02 16.67 10.82 13.27 13.27 10.82 16.67 13.02 21.42 11.05 22.27 7.09 25.73 7.09 26.58 11.05 31.33 13.02 34.73 10.82 37.18 13.27 34.98 16.67Z"/>
+                  <circle cx="24" cy="24" r="5.5"/>
+                </g>
+              </svg>
+            </div>
+            <h3>CAD &amp; Build</h3>
+            <p>Designs the robot in CAD, then fabricates and assembles it.</p>
+            <ul class="tick-list">
+              <li>3D modeling and design reviews</li>
+              <li>Prototyping and 3D printing</li>
+              <li>Drivetrain, mechanisms, and wiring</li>
+            </ul>
+          </article>
+          <article class="card team-card" data-reveal data-spotlight>
+            <div class="team-card-top">
+              <span class="team-num">03</span>
+              <svg class="team-icon icon-signal" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <circle cx="24" cy="24" r="3.5" fill="currentColor" stroke="none"/>
+                <path class="arc arc-1" d="M29.66 18.34a8 8 0 0 1 0 11.31M18.34 29.66a8 8 0 0 1 0-11.31"/>
+                <path class="arc arc-2" d="M34.61 13.39a15 15 0 0 1 0 21.21M13.39 34.61a15 15 0 0 1 0-21.21"/>
+                <path class="arc arc-3" d="M39.56 8.44a22 22 0 0 1 0 31.11M8.44 39.56a22 22 0 0 1 0-31.11"/>
+              </svg>
+            </div>
+            <h3>Outreach</h3>
+            <p>Represents the team in the community and manages our public presence.</p>
+            <ul class="tick-list">
+              <li>STEM events and demonstrations</li>
+              <li>Sponsorships and fundraising</li>
+              <li>Social media and the engineering portfolio</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="join" class="section join">
+      <div class="container">
+        <div class="join-panel" data-reveal>
+          <div class="join-copy">
+            <p class="eyebrow">Join</p>
+            <h2 class="section-title">Get Involved</h2>
+            <p class="join-text">If you are interested in joining the team or sponsoring our season, please reach out to a team member or mentor.</p>
+            <a class="text-link" href="signin.html">Team member? Sign in <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg></a>
+          </div>
+          <svg class="join-star" aria-hidden="true"><use href="#star"/></svg>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <svg class="brand-mark" aria-hidden="true"><use href="#star"/></svg>
+        <div>
+          <b>FTC Team 37055</b>
+          <span>FIRST&reg; Tech Challenge Rookie Team</span>
+        </div>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="#about">About</a>
+        <a href="#subteams">Subteams</a>
+        <a href="#join">Join</a>
+        <a href="signin.html">Sign In</a>
+      </nav>
     </div>
-  </section>
-
-  <footer>
     <div class="container">
-      <span>&copy; <span id="year"></span> FTC Team 37055</span>
-      <span>FIRST&reg; Tech Challenge Rookie Team</span>
+      <div class="footer-bottom">
+        <span>&copy; <span id="year">2026</span> FTC Team 37055</span>
+        <a href="#top">Back to top <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13.5v-11M3.5 7 8 2.5 12.5 7"/></svg></a>
+      </div>
     </div>
   </footer>
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

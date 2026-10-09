@@ -4,15 +4,48 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard - Team 37055</title>
+  <meta name="theme-color" content="#08061e">
   <link rel="icon" href="img/logo.png">
-  <link rel="stylesheet" href="css/style.css?v=3">
-  <script src="js/store.js?v=3"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <script src="js/store.js?v=4"></script>
   <script>if (!Auth.user()) location.replace("signin.html");</script>
+  <script src="js/site.js?v=4" defer></script>
 </head>
 <body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <polygon id="ray-o" points="0,-17 238,0 0,17"/>
+      <polygon id="ray-g" points="0,-21 172,0 0,21"/>
+      <polygon id="ray-y" points="0,-28 100,0 0,28"/>
+    </defs>
+    <symbol id="star" viewBox="-240 -240 480 480">
+      <g fill="#ff6e00">
+        <use href="#ray-o"/><use href="#ray-o" transform="rotate(45)"/><use href="#ray-o" transform="rotate(90)"/><use href="#ray-o" transform="rotate(135)"/>
+        <use href="#ray-o" transform="rotate(180)"/><use href="#ray-o" transform="rotate(225)"/><use href="#ray-o" transform="rotate(270)"/><use href="#ray-o" transform="rotate(315)"/>
+      </g>
+      <g fill="#ffa814">
+        <use href="#ray-g" transform="rotate(30)"/><use href="#ray-g" transform="rotate(90)"/><use href="#ray-g" transform="rotate(150)"/>
+        <use href="#ray-g" transform="rotate(210)"/><use href="#ray-g" transform="rotate(270)"/><use href="#ray-g" transform="rotate(330)"/>
+      </g>
+      <g fill="#ffd232">
+        <use href="#ray-y"/><use href="#ray-y" transform="rotate(90)"/><use href="#ray-y" transform="rotate(180)"/><use href="#ray-y" transform="rotate(270)"/>
+      </g>
+      <circle r="57" fill="#fff2c3"/>
+      <circle r="30" fill="#fff"/>
+    </symbol>
+  </svg>
+
+  <canvas class="starfield starfield--fixed starfield--dim" data-starfield="static" aria-hidden="true"></canvas>
+
   <nav class="nav">
     <div class="container">
-      <a class="brand" href="index.html"><img src="img/logo.png" alt="Team 37055 logo"><span>Team 37055</span></a>
+      <a class="brand" href="index.html">
+        <svg class="brand-mark" aria-hidden="true"><use href="#star"/></svg>
+        <span class="brand-name">Team 37055</span>
+      </a>
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="#" id="logout">Sign Out</a>
@@ -23,9 +56,11 @@
   <main class="dash">
     <div class="container">
       <div class="dash-head">
-        <div>
-          <h1>Team Dashboard</h1>
-          <div class="hint">Signed in as <b id="who"></b> &middot; <span id="mode"></span></div>
+        <p class="eyebrow">Members area</p>
+        <h1>Team Dashboard</h1>
+        <div class="dash-status">
+          <span>Signed in as <b id="who"></b></span>
+          <span class="status" id="mode"></span>
         </div>
       </div>
 
@@ -37,47 +72,47 @@
       </div>
 
       <!-- Attendance -->
-      <section class="panel active" id="attendance" style="padding:0">
+      <section class="panel active" id="attendance">
         <div class="two-col">
           <form class="card" id="att-form">
-            <h3 style="margin-top:0">Record Attendance</h3>
+            <h3>Record Attendance</h3>
             <label for="att-date">Date</label>
             <input type="date" id="att-date" required>
             <label for="att-names">Who attended?</label>
             <textarea id="att-names" placeholder="One name per line, or separated by commas" required></textarea>
-            <button class="btn" type="submit" style="margin-top:16px;width:100%">Submit Attendance</button>
+            <button class="btn block" type="submit">Submit Attendance</button>
             <div class="msg" id="att-msg"></div>
           </form>
           <div>
-            <div class="toolbar"><h3 style="margin:0">Past Meetings</h3></div>
+            <div class="toolbar"><h3>Past Meetings</h3></div>
             <div class="list" id="att-list"><div class="empty">Loading...</div></div>
           </div>
         </div>
       </section>
 
       <!-- Tasks -->
-      <section class="panel" id="tasks" style="padding:0">
+      <section class="panel" id="tasks">
         <div class="two-col">
           <form class="card" id="task-form">
-            <h3 style="margin-top:0">Create Task</h3>
+            <h3>Create Task</h3>
             <label for="task-title">Task</label>
             <input id="task-title" placeholder="e.g. Tune intake PID" required>
             <label for="task-assignees">Assignees</label>
             <input id="task-assignees" placeholder="Names, separated by commas" required>
             <label for="task-desc">Description</label>
             <textarea id="task-desc" placeholder="What needs to be done?"></textarea>
-            <button class="btn" type="submit" style="margin-top:16px;width:100%">Create Task</button>
+            <button class="btn block" type="submit">Create Task</button>
             <div class="msg" id="task-msg"></div>
           </form>
           <div>
             <div class="toolbar">
-              <h3 style="margin:0">Tasks</h3>
-              <select id="task-filter" style="margin-left:auto">
+              <h3>Tasks</h3>
+              <select id="task-filter" class="push" aria-label="Show tasks">
                 <option value="open">Open</option>
                 <option value="done">Completed</option>
                 <option value="all">All</option>
               </select>
-              <input id="task-search" placeholder="Filter by name...">
+              <input id="task-search" placeholder="Filter by name..." aria-label="Filter tasks">
             </div>
             <div class="list" id="task-list"><div class="empty">Loading...</div></div>
           </div>
@@ -85,22 +120,22 @@
       </section>
 
       <!-- Notes -->
-      <section class="panel" id="notes" style="padding:0">
+      <section class="panel" id="notes">
         <div class="two-col">
           <form class="card" id="note-form">
-            <h3 style="margin-top:0" id="note-form-title">New Note</h3>
+            <h3 id="note-form-title">New Note</h3>
             <label for="note-title">Title</label>
             <input id="note-title" required>
             <label for="note-body">Note</label>
-            <textarea id="note-body" style="min-height:180px" required></textarea>
-            <button class="btn" type="submit" style="margin-top:16px;width:100%" id="note-submit">Save Note</button>
-            <button class="btn secondary" type="button" style="margin-top:8px;width:100%" id="note-cancel" hidden>Cancel Edit</button>
+            <textarea id="note-body" class="tall" required></textarea>
+            <button class="btn block" type="submit" id="note-submit">Save Note</button>
+            <button class="btn secondary block" type="button" id="note-cancel" hidden>Cancel Edit</button>
             <div class="msg" id="note-msg"></div>
           </form>
           <div>
             <div class="toolbar">
-              <h3 style="margin:0">Notes</h3>
-              <input id="note-search" placeholder="Search notes..." style="margin-left:auto">
+              <h3>Notes</h3>
+              <input id="note-search" class="push" placeholder="Search notes..." aria-label="Search notes">
             </div>
             <div class="list" id="note-list"><div class="empty">Loading...</div></div>
           </div>
@@ -108,10 +143,10 @@
       </section>
 
       <!-- Settings -->
-      <section class="panel" id="settings" style="padding:0">
-        <form class="card" id="settings-form" style="max-width:640px">
-          <h3 style="margin-top:0">Save data to GitHub</h3>
-          <p class="hint">Attendance and tasks are stored in <code>data/attendance.json</code> and <code>data/tasks.json</code> in the repository. To save changes there, paste a GitHub token with write access to the repo. It is stored only in this browser.</p>
+      <section class="panel" id="settings">
+        <form class="card narrow-card" id="settings-form">
+          <h3>Save data to GitHub</h3>
+          <p class="hint">Attendance, tasks and notes are stored in <code>data/attendance.json</code>, <code>data/tasks.json</code> and <code>data/notes.json</code> in the repository. To save changes there, paste a GitHub token with write access to the repo. It is stored only in this browser.</p>
           <p class="hint">Without a token, anything you submit is saved <b>only in this browser</b>.</p>
           <label for="gh-token">GitHub token</label>
           <input id="gh-token" type="password" placeholder="github_pat_..." autocomplete="off">
@@ -120,7 +155,7 @@
           <input id="gh-repo">
           <label for="gh-branch">Branch</label>
           <input id="gh-branch">
-          <div class="btn-row" style="margin-top:18px">
+          <div class="btn-row">
             <button class="btn" type="submit">Save &amp; Test</button>
             <button class="btn danger" type="button" id="gh-clear">Remove token</button>
           </div>
@@ -130,6 +165,6 @@
     </div>
   </main>
 
-  <script src="js/dashboard.js?v=3"></script>
+  <script src="js/dashboard.js?v=4"></script>
 </body>
 </html>

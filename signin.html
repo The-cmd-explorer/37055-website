@@ -4,49 +4,108 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sign In - Team 37055</title>
+  <meta name="theme-color" content="#08061e">
   <link rel="icon" href="img/logo.png">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <script src="js/site.js?v=4" defer></script>
 </head>
 <body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <polygon id="ray-o" points="0,-17 238,0 0,17"/>
+      <polygon id="ray-g" points="0,-21 172,0 0,21"/>
+      <polygon id="ray-y" points="0,-28 100,0 0,28"/>
+    </defs>
+    <symbol id="star" viewBox="-240 -240 480 480">
+      <g fill="#ff6e00">
+        <use href="#ray-o"/><use href="#ray-o" transform="rotate(45)"/><use href="#ray-o" transform="rotate(90)"/><use href="#ray-o" transform="rotate(135)"/>
+        <use href="#ray-o" transform="rotate(180)"/><use href="#ray-o" transform="rotate(225)"/><use href="#ray-o" transform="rotate(270)"/><use href="#ray-o" transform="rotate(315)"/>
+      </g>
+      <g fill="#ffa814">
+        <use href="#ray-g" transform="rotate(30)"/><use href="#ray-g" transform="rotate(90)"/><use href="#ray-g" transform="rotate(150)"/>
+        <use href="#ray-g" transform="rotate(210)"/><use href="#ray-g" transform="rotate(270)"/><use href="#ray-g" transform="rotate(330)"/>
+      </g>
+      <g fill="#ffd232">
+        <use href="#ray-y"/><use href="#ray-y" transform="rotate(90)"/><use href="#ray-y" transform="rotate(180)"/><use href="#ray-y" transform="rotate(270)"/>
+      </g>
+      <circle r="57" fill="#fff2c3"/>
+      <circle r="30" fill="#fff"/>
+    </symbol>
+  </svg>
+
+  <canvas class="starfield starfield--fixed" data-starfield aria-hidden="true"></canvas>
+
   <nav class="nav">
     <div class="container">
-      <a class="brand" href="index.html"><img src="img/logo.png" alt="Team 37055 logo"><span>Team 37055</span></a>
+      <a class="brand" href="index.html">
+        <svg class="brand-mark" aria-hidden="true"><use href="#star"/></svg>
+        <span class="brand-name">Team 37055</span>
+      </a>
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a class="cta active" href="signin.html">Sign In</a>
+        <a class="cta active" href="signin.html" aria-current="page">Sign In</a>
       </div>
     </div>
   </nav>
 
   <main class="auth-wrap">
     <form class="card auth-card" id="login">
-      <img class="logo" src="img/logo.png" alt="">
+      <div class="auth-star" aria-hidden="true"><svg><use href="#star"/></svg></div>
+      <p class="eyebrow">Members only</p>
       <h1>Team Sign In</h1>
-      <p class="hint" style="text-align:center">Members only: attendance &amp; tasks</p>
+      <p class="hint">Attendance, tasks &amp; notes</p>
       <label for="username">Username</label>
-      <input id="username" autocomplete="username" required>
+      <input id="username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
       <label for="password">Password</label>
-      <input id="password" type="password" autocomplete="current-password" required>
-      <button class="btn" type="submit">Sign In</button>
-      <div class="msg error" id="err"></div>
+      <div class="input-wrap">
+        <input id="password" type="password" autocomplete="current-password" required>
+        <button class="reveal-pass" type="button" id="reveal-pass" aria-controls="password" aria-pressed="false">Show</button>
+      </div>
+      <button class="btn" type="submit" id="login-btn">Sign In <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg></button>
+      <div class="msg error" id="err" role="alert"></div>
     </form>
   </main>
 
-  <script src="js/store.js?v=3"></script>
+  <script src="js/store.js?v=4"></script>
   <script>
     if (Auth.user()) location.href = "dashboard.html";
-    document.getElementById("login").addEventListener("submit", async function (e) {
+
+    var form = document.getElementById("login");
+    var err = document.getElementById("err");
+    var submit = document.getElementById("login-btn");
+    var password = document.getElementById("password");
+    var revealPass = document.getElementById("reveal-pass");
+
+    revealPass.addEventListener("click", function () {
+      var show = password.type === "password";
+      password.type = show ? "text" : "password";
+      revealPass.textContent = show ? "Hide" : "Show";
+      revealPass.setAttribute("aria-pressed", String(show));
+    });
+
+    function fail(text) {
+      err.textContent = text;
+      err.classList.add("show");
+      form.classList.remove("shake");
+      void form.offsetWidth; // restart the shake animation
+      form.classList.add("shake");
+    }
+
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      var err = document.getElementById("err");
       err.classList.remove("show");
+      submit.disabled = true;
       try {
-        var ok = await Auth.login(username.value, password.value);
-        if (ok) location.href = "dashboard.html";
-        else { err.textContent = "Incorrect username or password."; err.classList.add("show"); }
+        var ok = await Auth.login(document.getElementById("username").value, password.value);
+        if (ok) { location.href = "dashboard.html"; return; }
+        fail("Incorrect username or password.");
       } catch (ex) {
-        err.textContent = "Couldn't load the login list. Are you opening the site through a web server?";
-        err.classList.add("show");
+        fail("Couldn't load the login list. Are you opening the site through a web server?");
       }
+      submit.disabled = false;
     });
   </script>
 </body>

@@ -33,6 +33,17 @@
     $("mode").textContent = !isAdmin ? "View only" : Store.token()
       ? "Saving to GitHub (" + Store.config().repo + ")"
       : "Saving in this browser only (add a GitHub token in Settings)";
+    $("mode").dataset.state = !isAdmin ? "view" : Store.token() ? "github" : "local";
+  }
+
+  // Plays the list entrance animation (on first load and when a tab is opened).
+  // The class is removed again so re-rendering while typing in a filter doesn't animate.
+  function reveal(list) {
+    list.classList.remove("reveal");
+    void list.offsetWidth;
+    list.classList.add("reveal");
+    clearTimeout(list.revealTimer);
+    list.revealTimer = setTimeout(function () { list.classList.remove("reveal"); }, 1000);
   }
   updateMode();
 
@@ -41,6 +52,7 @@
     btn.onclick = function () {
       document.querySelectorAll(".tab").forEach(function (b) { b.classList.toggle("active", b === btn); });
       document.querySelectorAll(".panel").forEach(function (p) { p.classList.toggle("active", p.id === btn.dataset.tab); });
+      $(btn.dataset.tab).querySelectorAll(".list").forEach(reveal);
       try { sessionStorage.setItem("tab", btn.dataset.tab); } catch (e) {}
     };
   });
@@ -89,7 +101,7 @@
   }
 
   async function loadAttendance() {
-    try { renderAttendance((await Store.read("attendance.json")).items); }
+    try { renderAttendance((await Store.read("attendance.json")).items); reveal($("att-list")); }
     catch (e) { $("att-list").innerHTML = '<div class="empty">' + esc(e.message) + "</div>"; }
   }
 
@@ -142,7 +154,7 @@
   }
 
   async function loadTasks() {
-    try { tasks = (await Store.read("tasks.json")).items; renderTasks(); }
+    try { tasks = (await Store.read("tasks.json")).items; renderTasks(); reveal($("task-list")); }
     catch (e) { $("task-list").innerHTML = '<div class="empty">' + esc(e.message) + "</div>"; }
   }
 
@@ -202,7 +214,7 @@
   }
 
   async function loadNotes() {
-    try { notes = (await Store.read("notes.json")).items; renderNotes(); }
+    try { notes = (await Store.read("notes.json")).items; renderNotes(); reveal($("note-list")); }
     catch (e) { $("note-list").innerHTML = '<div class="empty">' + esc(e.message) + "</div>"; }
   }
 
@@ -214,8 +226,9 @@
     $("note-cancel").hidden = true;
   }
 
+  $("note-search").oninput = renderNotes;
+
   if (isAdmin) {
-    $("note-search").oninput = renderNotes;
     $("note-cancel").onclick = resetNoteForm;
 
     $("note-form").addEventListener("submit", async function (e) {

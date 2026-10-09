@@ -10,6 +10,10 @@ Static site: runs on GitHub Pages with no build step.
 
 ## Logo / theme
 The logo is `img/logo.png`. The site colors are set to match it in `css/style.css` (`:root`).
+Each page also has the star redrawn as an SVG `<symbol id="star">` (same shapes and colors) so it can be animated.
+
+Animations (starfield, scroll reveals, the rolling team number, the ticker) live in `js/site.js`.
+They switch off for visitors who have "reduce motion" turned on, and every page still works without that file.
 
 ## Logins
 Logins are in `data/users.json` (plain text, not secure by design). Add or remove entries there. Each login has a role:
